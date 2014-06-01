@@ -47,3 +47,46 @@ height: 325px;
 .gauges .table{
 	float: right;
 }
+
+.room_occupancy {
+	color: blue;
+	font-size: 140%;
+	background-color: LIghtGray;
+}
+
+#birdcage {
+	position: absolute;
+	left: 	125px;
+	top:	270px;
+}
+
+#boardroom {
+	position: absolute;
+	left: 	375px;
+	top:	270px;
+}
+#cassandra {
+	position: absolute;
+	left: 	485px;
+	top:	225px;
+}
+#flightdeck {
+	position: absolute;
+	left: 	30px;
+	top:	215px;
+}
+#grizzly {
+	position: absolute;
+	left: 	180px;
+	top:	115px;
+}
+#vortex {
+	position: absolute;
+	left: 	265px;
+	top:	115px;
+}
+#yeager {
+	position: absolute;
+	left: 	325px;
+	top:	115px;
+}

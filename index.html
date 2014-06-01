@@ -26,11 +26,14 @@
 					<img src="images/dse_logo.png" alt="DataStax" style="height: 47px; width: auto;">
 					<h3>Connected Office Dashboard</h3>
 				</div>
-				<div class="col-xs-4 panel panel-default gauges frame-only" id="padding">
+				<div class="col-xs-2 panel panel-default gauges frame-only" id="padding">
 				</div>
-				<div class="col-xs-4 panel panel-default gauges frame-only" id="gauges">
+				<div class="col-xs-2 panel panel-default gauges frame-only" id="gauge1">
 				</div>
-
+				<div class="col-xs-2 panel panel-default gauges frame-only" id="gauge2">
+				</div>
+				<div class="col-xs-2 panel panel-default gauges frame-only" id="gauge3">
+				</div>
 	  	</div>
 		<div class="row" id="dashboard_body">
 			<div class="col-xs-12 frame-only">
@@ -45,8 +48,15 @@
 				<div class="row" id="dashboard_second_row">
 					<div class="col-xs-6 panel panel-default main_chart img_cont" id="office_plan">
 						<div style="position:absolute;left:5px;top:5px;">
-							Office Room Occupancy
+							Current Room Occupancy
 						</div>
+						<div id="boardroom" class="room_occupancy">1</div>
+						<div id="birdcage" class="room_occupancy">2</div>
+						<div id="flightdeck" class="room_occupancy">3</div>
+						<div id="grizzly" class="room_occupancy">4</div>
+						<div id="cassandra" class="room_occupancy">5</div>
+						<div id="vortex" class="room_occupancy">6</div>
+						<div id="yeager" class="room_occupancy">7</div>
 					</div>
 					
 					<div class="col-xs-6 panel panel-default main_chart" id="snack_chart">

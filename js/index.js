@@ -17,8 +17,8 @@
     ]);
 
     var options = {
-      title: 'Conferene Room Utilization',
-      hAxis: {title: '2014/05/26-2014/05/30', titleTextStyle: {color: 'black'}}
+      title: 'Conference Room Utilization',
+      hAxis: {title: '2014/05/26 - 2014/05/30', titleTextStyle: {color: 'black'}}
     };
 
     var chart = new google.visualization.ColumnChart(document.getElementById('room_chart'));
@@ -53,7 +53,7 @@
   //Draw Snack lunch room utilization chart
   function drawLunchChart() {
     var data = google.visualization.arrayToDataTable([
-      ['Day', 'Average Attendance', 'Peak', 'Ordered', 'Waste', 'Projected Order'],
+      ['Day', 'Average Attendance', 'Peak Attendance', 'Portions Ordered', 'Portions Wasted', 'Projected Order'],
       ['M',  24, 30, 50, 12, 0],
       ['T',  28, 34, 50, 8, 0],
       ['W',  30, 38, 50, 2, 0],
@@ -67,19 +67,10 @@
     ]);
 
     var options = {
-      title: 'Lunch Room Attendance',
+      title: 'Lunch Room Attendance / Lunch Orders',
       hAxis: {title: 'Current Week - Forecast',  titleTextStyle: {color: '#333'}},
-	  seriesType: "bars",
-	  series:{0:{type: "line"}},
-	  series:{1:{type: "line"}},
-	  series:{2:{type: "bars"}},
-	  series:{3:{type: "bars"}},
-      vAxes: {
-	  	vAxis: {title: "People", minValue: 0, titleTextStyle: {color: '#333'}},
-	  	vAxis: {title: "Servings", minValue: 0, titleTextStyle: {color: '#333'}}
-		},
-      series: {4: {type: "bars"}}
-
+	  vAxis: {title: "People/Orders", minValue: 0, titleTextStyle: {color: '#333'}},
+	  series:{0:{type: "line"}, 1:{type: "line"}, 2:{type: "bars"}, 3:{type: "bars"}, 4:{type: "bars"}}
     };
 
     var chart = new google.visualization.ComboChart(document.getElementById('lunch_chart'));
@@ -87,22 +78,49 @@
   }
   
   function drawGauges() {
-    var data = google.visualization.arrayToDataTable([
+    var data1 = google.visualization.arrayToDataTable([
       ['Label', 'Value'],
-      ['Sensors', 84],
-      ['Messages', 185],
-      ['Occupancy', 68]
+      ['Sensors', 135]
+    ]);
+	
+    var data2 = google.visualization.arrayToDataTable([
+      ['Label', 'Value'],
+      ['Messages', 3700]
+    ]);
+	
+    var data3 = google.visualization.arrayToDataTable([
+      ['Label', 'Value'],
+      ['Occupancy', 84]
     ]);
 
-    var options = {
-      width: 400, height: 120,
+    var options1 = {
+      width: 130, height: 120,
+	  max: 1000,  min: 0,
+      redFrom: 950, redTo: 1000,
+      yellowFrom:900, yellowTo: 950,
+      minorTicks: 5
+    };
+	
+    var options2 = {
+      width: 130, height: 120,
+	  max: 5000, min: 0,
+      redFrom: 4500, redTo: 5000,
+      yellowFrom:4000, yellowTo: 4500,
+      minorTicks: 3
+    };
+    var options3 = {
+      width: 130, height: 120,
       redFrom: 90, redTo: 100,
       yellowFrom:75, yellowTo: 90,
       minorTicks: 5
     };
 
-    var chart = new google.visualization.Gauge(document.getElementById('gauges'));
-    chart.draw(data, options);
+    var chart1 = new google.visualization.Gauge(document.getElementById('gauge1'));
+    chart1.draw(data1, options1);
+    var chart2 = new google.visualization.Gauge(document.getElementById('gauge2'));
+    chart2.draw(data2, options2);
+    var chart3 = new google.visualization.Gauge(document.getElementById('gauge3'));
+    chart3.draw(data3, options3);
   }
 
 
