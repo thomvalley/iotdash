@@ -1,0 +1,49 @@
+.container {
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+h4 {
+  margin-top: 25px;
+}
+
+}
+.row .row {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+[class*="col-"] {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border: 1px solid #ddd;
+  border: 1px solid rgba(86,61,124,.2);
+}
+.frame-only {
+	border: 0px; !important
+}
+
+hr {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.main_chart {
+width: 600px; 
+height: 325px;
+}
+
+.img_cont {
+	position: relative;
+	background: transparent url(../images/schematic2.png) no-repeat center bottom;
+	background-size: 550px;
+	
+}
+
+.office_img{
+	width: 550px;
+	z-index: -1;
+}
+
+.gauges .table{
+	float: right;
+}
