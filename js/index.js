@@ -178,7 +178,7 @@
           title: 'My Daily Activities',
           is3D: true,
           width: 800,
-          height: 600
+          height: 450
       };
 
       var chart = new google.visualization.PieChart(document.getElementById('modal_content'));

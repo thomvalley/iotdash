@@ -45,9 +45,19 @@ height: 325px;
 }
 
 .room_occupancy_label {
-	color: blue;
-	font-size: 140%;
-	background-color: LIghtGray;
+
+    display: block;
+    height: 25px;
+    width: 25px;
+    line-height: 25px;
+
+    -moz-border-radius: 30px; /* or 50% */
+    border-radius: 30px; /* or 50% */
+
+    background-color: darkblue;
+    color: white;
+    text-align: center;
+    font-size: 80%;
 }
 
 #birdcage {
