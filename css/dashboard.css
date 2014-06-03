@@ -4,9 +4,7 @@
 }
 
 h4 {
-  margin-top: 25px;
-}
-
+    margin-top: 25px;
 }
 .row .row {
   margin-top: 5px;
@@ -16,7 +14,6 @@ h4 {
   padding-top: 5px;
   padding-bottom: 5px;
   border: 1px solid #ddd;
-  border: 1px solid rgba(86,61,124,.2);
 }
 .frame-only {
 	border: 0px; !important
@@ -36,7 +33,6 @@ height: 325px;
 	position: relative;
 	background: transparent url(../images/schematic2.png) no-repeat center bottom;
 	background-size: 550px;
-	
 }
 
 .office_img{
@@ -48,7 +44,7 @@ height: 325px;
 	float: right;
 }
 
-.room_occupancy {
+.room_occupancy_label {
 	color: blue;
 	font-size: 140%;
 	background-color: LIghtGray;
@@ -89,4 +85,9 @@ height: 325px;
 	position: absolute;
 	left: 	325px;
 	top:	115px;
+}
+.autoModal.modal .modal-body{
+    width:'auto';
+    height:'auto';
+    max-height: 100%;
 }
