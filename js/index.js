@@ -12,12 +12,12 @@
   function drawGauges() {
       var dataSensors = google.visualization.arrayToDataTable([
           ['Label', 'Value'],
-          ['Sensors', 135]
+          ['Sensors', Math.floor(Math.random() * (130 - 125 + 1)) + 125]
       ]);
 
       var dataMessages = google.visualization.arrayToDataTable([
           ['Label', 'Value'],
-          ['Messages', 3700]
+          ['Messages', Math.floor(Math.random() * (3488 - 3196 + 1)) + 3196]
       ]);
 
       var dataOccupancy = google.visualization.arrayToDataTable([
@@ -27,9 +27,9 @@
 
       var optionsSensors = {
           width: 130, height: 120,
-          max: 1000,  min: 0,
-          redFrom: 950, redTo: 1000,
-          yellowFrom:900, yellowTo: 950,
+          max: 250,  min: 0,
+          redFrom: 225, redTo: 250,
+          yellowFrom:210, yellowTo: 225,
           minorTicks: 5
       };
       var optionsMessages = {
@@ -52,6 +52,7 @@
       chart2.draw(dataMessages, optionsMessages);
       var chart3 = new google.visualization.Gauge(document.getElementById('occupancy'));
       chart3.draw(dataOccupancy, optionsOccupancy);
+
   }
   
   function drawRoomChart() {
@@ -185,4 +186,17 @@
       chart.draw(data, options);
   }
 
+  function setOfficePlanValues() {
 
+      var newValue = Math.floor(Math.random() * (10 - 0 + 1)) + 0;
+      var currRoom = Math.floor(Math.random() * (6 - 0 + 1)) + 0;
+
+      var rooms = ['#boardroom', '#birdcage', '#flightdeck', '#grizzly', '#cassandra', '#vortex', '#yeager' ]
+
+      $(rooms[currRoom]).text(newValue.toString());
+
+  }
+
+
+  setInterval(drawGauges, 2000);
+  setInterval(setOfficePlanValues, 3000)
