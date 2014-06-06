@@ -1,10 +1,9 @@
-  google.load("visualization", "1", {packages:["corechart"]});
-  google.load("visualization", "1", {packages: ["calendar"]});
-  google.load('visualization', '1', {packages:['gauge']});
+  google.load("visualization", "1", {packages:["corechart", "gauge", "map", "calendar", "table"]});
   google.setOnLoadCallback(drawRoomChart);
   google.setOnLoadCallback(drawLunchChart);
   google.setOnLoadCallback(drawSnackChart);
   google.setOnLoadCallback(drawGauges);
+  google.setOnLoadCallback(drawMap);
 
   // Draw gauges for top bar
   //Currently a separate call for each gauge until I figure out
@@ -57,17 +56,17 @@
   
   function drawRoomChart() {
     var roomdata = google.visualization.arrayToDataTable([
-      ['Day', 'BirdCage', 'Boardroom', 'Cassandra', 'Flight Deck', 'Grizzly', 'Vortex', 'Yeager'],
-	  ['M',	55,	25,	15,	15,	5,	12,	22],
-	  ['T',	85,	60,	25,	22,	36,	34,	39],
-	  ['W',	90,	60,	25,	32,	44,	59,	56],
-	  ['T',	90,	65,	20,	18,	18,	11,	17],
-	  ['F',	35,	50,	25,	27,	12,	8,	5]
+      ['Day', 'BirdCage', 'Boardroom', 'Cassandra', 'FlightDeck', 'Grizzly', 'Vortex', 'Yeager'],
+	  ['M',	60,	25,	15,	15,	5,	12,	22],
+	  ['T',	85,	60,	25,	22,	18,	34,	39],
+	  ['W',	95,	60,	25,	32,	30,	59,	56],
+	  ['T',	95,	65,	20,	18,	18,	11,	17],
+	  ['F',	60,	50,	25,	27,	12,	8,	5]
 	  
     ]);
 
     var options = {
-      title: 'Conference Room Utilization',
+      title: 'Conference Room Utilization (M-F / 8-6 - 15 minute blocks)',
       hAxis: {title: '2014/05/26 - 2014/05/30', titleTextStyle: {color: 'black'}}
     };
 
@@ -75,16 +74,45 @@
     var roomchart = new google.visualization.ColumnChart(document.getElementById('room_chart'));
     roomchart.draw(roomdata, options);
 
+
     google.visualization.events.addListener(roomchart, 'select', function() {
         //alert();
         //drawCalendarChart();
-        $('#modal_content').empty();
-        drawPieChart();
-        $('#chart_title').text("Detailed Room Utilization - " + roomdata.getColumnLabel(roomchart.getSelection()[0].column));
-        $('#chart_modal').modal({
-            keyboard: false
-        });
+        var selection = roomchart.getSelection();
+
+        if (selection[0] != null) {
+            $('#modal_content').empty();
+            drawDetailRoomChart(roomdata.getColumnLabel(roomchart.getSelection()[0].column));
+            $('#chart_title').text("Detailed Room Utilization - " + roomdata.getColumnLabel(roomchart.getSelection()[0].column));
+            $('#chart_modal').modal({
+                keyboard: false
+            });
+
+        }
+
     })
+
+      google.visualization.events.addListener(roomchart, 'onmouseover', function(e) {
+          //alert();
+          //drawCalendarChart();
+          if (e != null) {
+              var fieldName = '#' + roomdata.getColumnLabel(e.column).toLowerCase();
+              $(fieldName).toggleClass("room_occupancy_label_hover", true)
+          }
+
+      })
+
+      google.visualization.events.addListener(roomchart, 'onmouseout', function(e) {
+          //alert();
+          //drawCalendarChart();
+          var selection = roomchart.getSelection();
+
+          if (e != null) {
+              var fieldName = '#' + roomdata.getColumnLabel(e.column).toLowerCase();
+              $(fieldName).toggleClass("room_occupancy_label_hover", false);
+          }
+
+      })
 
   }
  
@@ -141,22 +169,22 @@
 
   function drawSnackChart() {
       var data = google.visualization.arrayToDataTable([
-          ['ID', 'Taken', 'Restocked', 'Region',     'Inventory'],
-          ['',    80.66,              1.67,      'Peanuts',  50],
-          ['',    79.84,              1.36,      'Almonds',         75],
-          ['',    78.6,               1.84,      'Granola Bars',         74],
-          ['',    72.73,              2.78,      'Oreos',    66],
-          ['',    80.05,              2,         'Choc. Chip',         43],
-          ['',    72.49,              1.7,       'Apples',    80],
-          ['',    68.09,              4.77,      'Bananas',    35],
-          ['',    81.55,              2.96,      'Jerky',    21],
-          ['',    68.6,               1.54,      'Cheese Crackers',         24],
-          ['',    78.09,              2.05,      'M & Ms',  67]
+          ['ID', 'Inventoy', 'Restocked', 'Snack', 'Consumed'],
+          ['',    75, 25,      'Peanuts',  50],
+          ['',    22, 25,      'Almonds',         38],
+          ['',    36, 25,      'Granola Bars',         74],
+          ['',    60, 60,      'Oreos',    75],
+          ['',    30, 2,         'Choc. Chip', 40],
+          ['',    65, 45,       'Apples',   4],
+          ['',    8, 0,      'Bananas',    8],
+          ['',    18, 10,      'Jerky',    35],
+          ['',    27, 5,      'Cheese Crackers',         24],
+          ['',    33, 5,      'M & Ms',  67]
       ]);
 
       var options = {
           title: 'Snack Utilization & Restock / Current Inventory (unit weight)',
-          hAxis: {title: 'Taken'},
+          hAxis: {title: 'Inventory'},
           vAxis: {title: 'Restocked'},
           bubble: {textStyle: {fontSize: 11}}
       };
@@ -197,6 +225,121 @@
 
   }
 
+  function drawCalChart() {
+      var caldataTable = new google.visualization.DataTable();
+      caldataTable.addColumn({ type: 'date', id: 'Date' });
+      caldataTable.addColumn({ type: 'number', id: 'Won/Loss' });
+      caldataTable.addRows([
+          [ new Date(2012, 3, 13), 37032 ],
+          [ new Date(2012, 3, 14), 38024 ],
+          [ new Date(2012, 3, 15), 38024 ],
+          [ new Date(2012, 3, 16), 38108 ],
+          [ new Date(2012, 3, 17), 38229 ],
+          // Many rows omitted for brevity.
+          [ new Date(2013, 9, 4), 38177 ],
+          [ new Date(2013, 9, 5), 38705 ],
+          [ new Date(2013, 9, 12), 38210 ],
+          [ new Date(2013, 9, 13), 38029 ],
+          [ new Date(2013, 9, 19), 38823 ],
+          [ new Date(2013, 9, 23), 38345 ],
+          [ new Date(2013, 9, 24), 38436 ],
+          [ new Date(2013, 9, 30), 38447 ]
+      ]);
 
-  setInterval(drawGauges, 2000);
+      var calchart = new google.visualization.Calendar(document.getElementById('modal_content'));
+
+      var caloptions = {
+          title: "Red Sox Attendance",
+          height: 350,
+          width: 880,
+          calendar: { cellSize: 10 }
+      };
+
+     calchart.draw(caldataTable, caloptions);
+  }
+
+
+  function drawMap() {
+      var mapData = google.visualization.arrayToDataTable([
+          ['Lat', 'Long', 'Name'],
+          [37.3872135, -121.9739083, 'Solutions Engineer'],
+          [37.4289, -122.1697, 'Evangelist'],
+          [37.6153, -122.3900, 'Solutions Architect'],
+          [51.5081779,-0.4440233, 'Support Engineer'],
+          [28.378506,-81.5258875, 'Enterprise Sales'],
+          [27.175015,78.042155, 'Enterprise Sales'],
+          [40.74844,-73.985664, 'Software Engineer']
+
+      ]);
+
+      var options = {
+          showTip: true,
+          zoomLevel: 0,
+          width: 1000
+      };
+
+      var map = new google.visualization.Map(document.getElementById('people_map'));
+
+      map.draw(mapData, options);
+  };
+
+  function drawDetailRoomChart(room) {
+
+      var now = new Date(Date.now());
+      var ceiling, floor;
+
+      switch (room) {
+          case "BirdCage":
+              ceiling = 100;
+              floor = 75;
+              break;
+          case "Boardroom":
+              ceiling = 60;
+              floor = 30;
+              break;
+          case "Cassandra":
+              ceiling = 40;
+              floor = 10;
+              break;
+          case "FlightDeck":
+              ceiling = 50;
+              floor = 0;
+              break;
+          case "Grizzly":
+              ceiling = 40;
+              floor = 5;
+              break;
+          case "Vortex":
+              ceiling = 25;
+              floor = 0;
+              break;
+          case "Yeager":
+              ceiling = 20;
+              floor = 0;
+              break;
+      }
+
+
+      var dataCal = new google.visualization.DataTable();
+      dataCal.addColumn({ type: 'date', id: 'Date' });
+      dataCal.addColumn({ type: 'number', id: 'Occupancy' });
+      for (var d = new Date(2014, 0, 1); d <= now; d.setDate(d.getDate() + 1)) {
+          if (d.getDay() > 0 && d.getDay() < 6){
+              dataCal.addRow([new Date(d), Math.floor(Math.random() * (ceiling - floor + 1)) + floor]);
+          }
+      }
+
+      var calchart = new google.visualization.Calendar(document.getElementById('modal_content'));
+
+      var options = {
+          height: 350,
+          width: 900,
+          calendar: { cellSize: 15 },
+          forceIFrame: true
+      };
+
+      calchart.draw(dataCal, options);
+  }
+
+  setInterval(drawGauges, 1000);
   setInterval(setOfficePlanValues, 3000)

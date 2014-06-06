@@ -63,7 +63,7 @@
 				</div>
 				<div class="row" id="dashboard_second_row">
 					<div class="col-xs-6 panel panel-default main_chart img_cont" id="office_plan">
-						<div style="position:absolute;left:5px;top:5px;">
+						<div style="position:absolute;left:5px;top:5px;" class="chartTitle">
 							Current Room Occupancy
 						</div>
 						<div id="boardroom" class="room_occupancy_label">1</div>
@@ -79,6 +79,15 @@
 						Chart 4
 					</div>
 				</div>
+                <div class="row" id="dashboard_third_row">
+                    <div class="col-xs-12 panel panel-default full_chart" id="map_wrapper">
+                        <div class="chartTitle">
+                            DataStax Employees Worldwide (real time location)
+                        </div>
+                        <div id = "people_map" class="full_map">
+                        </div>
+                    </div>
+                </div>
 			</div>
 		</div>
 		<div class="row" id="dashboard_footer">
@@ -89,8 +98,8 @@
 	  
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
+	<script src="js/bootstrap.js"></script>
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 	<script src="js/index.js"></script>
   </body>
